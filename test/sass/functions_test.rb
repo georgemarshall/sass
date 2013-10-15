@@ -1567,6 +1567,21 @@ SCSS
     assert_error_message("2px is not a string for `variable-exists'", "variable-exists(2px)")
   end
 
+  def test_random
+    Sass::Script::Functions.random_seed = 1
+    assert_equal "0.41702", evaluate("random()")
+    assert_equal "13", evaluate("random(100)")
+  end
+
+  def test_random_works_without_a_seed
+    if Sass::Script::Functions.instance_variable_defined?("@random_number_generator")
+      Sass::Script::Functions.remove_instance_variable("@random_number_generator")
+    end
+    assert_nothing_raised do
+      evaluate("random()")
+    end
+  end
+
 
   ## Regression Tests
 
