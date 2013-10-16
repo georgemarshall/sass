@@ -1279,6 +1279,18 @@ a {
 SCSS
   end
 
+  def test_nested_extend_with_parent_selector
+    assert_equal <<CSS, render(<<SCSS)
+a:b {
+  a: b; }
+CSS
+a {
+  %foo {a: b}
+  &:b {@extend %foo}
+}
+SCSS
+  end
+
   def test_nested_double_extend_optimization
     assert_equal <<CSS, render(<<SCSS)
 .parent1 .child {
